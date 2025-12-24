@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.manage.mapper.FileInfoMapper">
+    
+    <resultMap type="FileInfo" id="FileInfoResult">
+        <result property="id"    column="id"    />
+        <result property="fileTypeId"    column="file_type_id"    />
+        <result property="fileTypeName"    column="file_type_name"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="description"    column="description"    />
+        <result property="viewCount"    column="view_count"    />
+        <result property="downloadCount"    column="download_count"    />
+        <result property="collectCount"    column="collect_count"    />
+        <result property="isPublic"    column="is_public"    />
+        <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFileInfoVo">
+        select id, file_type_id, file_type_name, file_name, file_type, file_size, description, view_count, download_count, collect_count, is_public, remark, user_id, create_time, update_time from tb_file_info
+    </sql>
+
+    <select id="selectFileInfoList" parameterType="FileInfo" resultMap="FileInfoResult">
+        <include refid="selectFileInfoVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="fileTypeName != null  and fileTypeName != ''"> and file_type_name like concat('%', #{fileTypeName}, '%')</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="isPublic != null  and isPublic != ''"> and is_public = #{isPublic}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFileInfoById" parameterType="Long" resultMap="FileInfoResult">
+        <include refid="selectFileInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertFileInfo" parameterType="FileInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_file_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileTypeId != null">file_type_id,</if>
+            <if test="fileTypeName != null and fileTypeName != ''">file_type_name,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileType != null and fileType != ''">file_type,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="downloadCount != null">download_count,</if>
+            <if test="collectCount != null">collect_count,</if>
+            <if test="isPublic != null and isPublic != ''">is_public,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileTypeId != null">#{fileTypeId},</if>
+            <if test="fileTypeName != null and fileTypeName != ''">#{fileTypeName},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileType != null and fileType != ''">#{fileType},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="downloadCount != null">#{downloadCount},</if>
+            <if test="collectCount != null">#{collectCount},</if>
+            <if test="isPublic != null and isPublic != ''">#{isPublic},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFileInfo" parameterType="FileInfo">
+        update tb_file_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileTypeId != null">file_type_id = #{fileTypeId},</if>
+            <if test="fileTypeName != null and fileTypeName != ''">file_type_name = #{fileTypeName},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="downloadCount != null">download_count = #{downloadCount},</if>
+            <if test="collectCount != null">collect_count = #{collectCount},</if>
+            <if test="isPublic != null and isPublic != ''">is_public = #{isPublic},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFileInfoById" parameterType="Long">
+        delete from tb_file_info where id = #{id}
+    </delete>
+
+    <delete id="deleteFileInfoByIds" parameterType="String">
+        delete from tb_file_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

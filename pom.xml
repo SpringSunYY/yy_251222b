@@ -233,6 +233,11 @@
                 <artifactId>file-common</artifactId>
                 <version>${file.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.lz</groupId>
+                <artifactId>file-manage</artifactId>
+                <version>${file.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -244,6 +249,7 @@
         <module>file-quartz</module>
         <module>file-generator</module>
         <module>file-common</module>
+        <module>file-manage</module>
     </modules>
     <packaging>pom</packaging>
 

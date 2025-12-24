@@ -1,0 +1,83 @@
+package com.lz.manage.model.vo.auditInfo;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import com.lz.common.annotation.Excel;
+import org.springframework.beans.BeanUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lz.manage.model.domain.AuditInfo;
+/**
+ * 审核信息Vo对象 tb_audit_info
+ *
+ * @author YY
+ * @date 2025-12-24
+ */
+@Data
+public class AuditInfoVo implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+    /** 编号 */
+    private Long id;
+
+    /** 用户编号 */
+    private Long userId;
+
+    /** 类型编号 */
+    private Long fileTypeId;
+
+    /** 类型名称 */
+    private String fileTypeName;
+
+    /** 文件编号 */
+    private Long fileId;
+
+    /** 文件名称 */
+    private String fileName;
+
+    /** 文件类型 */
+    private String fileType;
+
+    /** 文件大小 */
+    private Long fileSize;
+
+    /** 审核人 */
+    private Long auditUserId;
+
+    /** 审核内容 */
+    private String content;
+
+    /** 是否同意 */
+    private String isAgree;
+
+    /** 审核时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date auditTime;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
+
+    /** 更新时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updateTime;
+
+
+     /**
+     * 对象转封装类
+     *
+     * @param auditInfo AuditInfo实体对象
+     * @return AuditInfoVo
+     */
+    public static AuditInfoVo objToVo(AuditInfo auditInfo) {
+        if (auditInfo == null) {
+            return null;
+        }
+        AuditInfoVo auditInfoVo = new AuditInfoVo();
+        BeanUtils.copyProperties(auditInfo, auditInfoVo);
+        return auditInfoVo;
+    }
+}

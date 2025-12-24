@@ -60,6 +60,10 @@
             <groupId>com.lz</groupId>
             <artifactId>file-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.lz</groupId>
+            <artifactId>file-manage</artifactId>
+        </dependency>
 
     </dependencies>
 

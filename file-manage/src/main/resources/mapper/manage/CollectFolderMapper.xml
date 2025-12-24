@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.manage.mapper.CollectFolderMapper">
+    
+    <resultMap type="CollectFolder" id="CollectFolderResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCollectFolderVo">
+        select id, name, remark, user_id, create_time, update_time from tb_collect_folder
+    </sql>
+
+    <select id="selectCollectFolderList" parameterType="CollectFolder" resultMap="CollectFolderResult">
+        <include refid="selectCollectFolderVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCollectFolderById" parameterType="Long" resultMap="CollectFolderResult">
+        <include refid="selectCollectFolderVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCollectFolder" parameterType="CollectFolder" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_collect_folder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCollectFolder" parameterType="CollectFolder">
+        update tb_collect_folder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCollectFolderById" parameterType="Long">
+        delete from tb_collect_folder where id = #{id}
+    </delete>
+
+    <delete id="deleteCollectFolderByIds" parameterType="String">
+        delete from tb_collect_folder where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
