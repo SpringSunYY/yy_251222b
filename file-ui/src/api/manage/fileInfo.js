@@ -9,6 +9,14 @@ export function listFileInfo(query) {
   })
 }
 
+export function listFileInfoPublic(query) {
+  return request({
+    url: '/manage/fileInfo/public',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询文件信息详细
 export function getFileInfo(id) {
   return request({

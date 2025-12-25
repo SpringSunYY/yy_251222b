@@ -117,6 +117,17 @@ public class CollectInfoController extends BaseController
     }
 
     /**
+     * 删除收藏
+     */
+    @PreAuthorize("@ss.hasPermi('manage:collectInfo:remove')")
+    @Log(title = "收藏记录", businessType = BusinessType.DELETE)
+    @DeleteMapping("/delete/{id}")
+    public AjaxResult delete(@PathVariable Long id)
+    {
+        return toAjax(collectInfoService.deleteCollectInfoByFileId(id));
+    }
+
+    /**
      * 导入收藏记录数据
      */
     @PreAuthorize("@ss.hasPermi('manage:collectInfo:import')")

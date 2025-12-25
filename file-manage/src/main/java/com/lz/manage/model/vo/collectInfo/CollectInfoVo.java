@@ -77,6 +77,8 @@ public class CollectInfoVo implements Serializable {
      * 用户
      */
     private Long userId;
+    private String userName;
+
 
     /**
      * 创建时间

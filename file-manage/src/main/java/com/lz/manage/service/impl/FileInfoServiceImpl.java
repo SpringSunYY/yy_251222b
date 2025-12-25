@@ -13,16 +13,19 @@ import com.lz.common.utils.bean.BeanValidators;
 import com.lz.common.utils.file.FileUtils;
 import com.lz.common.utils.spring.SpringUtils;
 import com.lz.manage.mapper.FileInfoMapper;
+import com.lz.manage.model.domain.CollectInfo;
 import com.lz.manage.model.domain.FileInfo;
 import com.lz.manage.model.domain.FileType;
 import com.lz.manage.model.dto.fileInfo.FileInfoQuery;
 import com.lz.manage.model.enums.IsPublicEnum;
 import com.lz.manage.model.vo.fileInfo.FileInfoVo;
+import com.lz.manage.service.ICollectInfoService;
 import com.lz.manage.service.IFileInfoService;
 import com.lz.manage.service.IFileTypeService;
 import com.lz.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,6 +56,10 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
 
     @Resource
     private IFileTypeService fileTypeService;
+
+    @Resource
+    @Lazy
+    private ICollectInfoService collectInfoService;
 
     {
         validator = SpringUtils.getBean(Validator.class);
@@ -254,6 +261,26 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    @Override
+    public List<FileInfo> selectFileInfoListByPublic(FileInfo fileInfo) {
+        fileInfo.setIsPublic(IsPublicEnum.IS_PUBLIC_1.getValue());
+        List<FileInfo> fileInfos = fileInfoMapper.selectFileInfoList(fileInfo);
+        Long userId = SecurityUtils.getUserId();
+        for (FileInfo info : fileInfos) {
+            SysUser sysUser = sysUserService.selectUserById(info.getUserId());
+            if (StringUtils.isNotNull(sysUser)) {
+                info.setUserName(sysUser.getUserName());
+            }
+            CollectInfo collect = collectInfoService.isCollect(info.getId(), userId);
+            if (StringUtils.isNotNull(collect)) {
+                info.setIsCollect(true);
+            } else {
+                info.setIsCollect(false);
+            }
+        }
+        return fileInfos;
     }
 
 }

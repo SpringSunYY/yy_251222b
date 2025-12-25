@@ -97,6 +97,9 @@ public class FileInfo implements Serializable {
     @Excel(name = "是否公开", dictType = "is_public")
     private String isPublic;
 
+    @TableField(exist = false)
+    private Boolean isCollect;
+
     /**
      * 备注
      */

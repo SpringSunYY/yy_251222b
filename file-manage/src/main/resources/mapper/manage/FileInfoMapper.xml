@@ -59,7 +59,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
-        order by update_time desc
+        order by create_time desc
     </select>
 
     <select id="selectFileInfoById" parameterType="Long" resultMap="FileInfoResult">

@@ -43,6 +43,14 @@ export function delCollectInfo(id) {
   })
 }
 
+//根据fileId删除收藏记录
+export function delCollectInfoByFileId(fileId) {
+  return request({
+    url: '/manage/collectInfo/delete/' + fileId,
+    method: 'delete'
+  })
+}
+
 // 导入收藏记录
 export function importCollectInfo(data) {
   return request({

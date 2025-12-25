@@ -1,24 +1,25 @@
 package com.lz.manage.service;
 
-import java.util.List;
-import com.lz.manage.model.domain.CollectInfo;
-import com.lz.manage.model.vo.collectInfo.CollectInfoVo;
-import com.lz.manage.model.dto.collectInfo.CollectInfoQuery;
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.lz.manage.model.domain.CollectInfo;
+import com.lz.manage.model.dto.collectInfo.CollectInfoQuery;
+import com.lz.manage.model.vo.collectInfo.CollectInfoVo;
+
+import java.util.List;
+
 /**
  * 收藏记录Service接口
- * 
+ *
  * @author YY
  * @date 2025-12-24
  */
-public interface ICollectInfoService extends IService<CollectInfo>
-{
+public interface ICollectInfoService extends IService<CollectInfo> {
     //region mybatis代码
+
     /**
      * 查询收藏记录
-     * 
+     *
      * @param id 收藏记录主键
      * @return 收藏记录
      */
@@ -26,7 +27,7 @@ public interface ICollectInfoService extends IService<CollectInfo>
 
     /**
      * 查询收藏记录列表
-     * 
+     *
      * @param collectInfo 收藏记录
      * @return 收藏记录集合
      */
@@ -34,15 +35,24 @@ public interface ICollectInfoService extends IService<CollectInfo>
 
     /**
      * 新增收藏记录
-     * 
+     *
      * @param collectInfo 收藏记录
      * @return 结果
      */
     public int insertCollectInfo(CollectInfo collectInfo);
 
     /**
+     * 查询收藏记录
+     *
+     * @param fileId
+     * @param userId
+     * @return
+     */
+    CollectInfo isCollect(Long fileId, Long userId);
+
+    /**
      * 修改收藏记录
-     * 
+     *
      * @param collectInfo 收藏记录
      * @return 结果
      */
@@ -50,7 +60,7 @@ public interface ICollectInfoService extends IService<CollectInfo>
 
     /**
      * 批量删除收藏记录
-     * 
+     *
      * @param ids 需要删除的收藏记录主键集合
      * @return 结果
      */
@@ -58,12 +68,13 @@ public interface ICollectInfoService extends IService<CollectInfo>
 
     /**
      * 删除收藏记录信息
-     * 
+     *
      * @param id 收藏记录主键
      * @return 结果
      */
     public int deleteCollectInfoById(Long id);
     //endregion
+
     /**
      * 获取查询条件
      *
@@ -85,8 +96,10 @@ public interface ICollectInfoService extends IService<CollectInfo>
      *
      * @param collectInfoList 收藏记录数据列表
      * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
-     * @param operName 操作用户
+     * @param operName        操作用户
      * @return 结果
      */
     public String importCollectInfoData(List<CollectInfo> collectInfoList, Boolean isUpdateSupport, String operName);
+
+    int deleteCollectInfoByFileId(Long id);
 }

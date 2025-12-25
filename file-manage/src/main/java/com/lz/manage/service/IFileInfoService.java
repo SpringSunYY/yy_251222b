@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 /**
  * 文件信息Service接口
- * 
+ *
  * @author YY
  * @date 2025-12-24
  */
@@ -18,7 +18,7 @@ public interface IFileInfoService extends IService<FileInfo>
     //region mybatis代码
     /**
      * 查询文件信息
-     * 
+     *
      * @param id 文件信息主键
      * @return 文件信息
      */
@@ -26,7 +26,7 @@ public interface IFileInfoService extends IService<FileInfo>
 
     /**
      * 查询文件信息列表
-     * 
+     *
      * @param fileInfo 文件信息
      * @return 文件信息集合
      */
@@ -34,7 +34,7 @@ public interface IFileInfoService extends IService<FileInfo>
 
     /**
      * 新增文件信息
-     * 
+     *
      * @param fileInfo 文件信息
      * @return 结果
      */
@@ -42,7 +42,7 @@ public interface IFileInfoService extends IService<FileInfo>
 
     /**
      * 修改文件信息
-     * 
+     *
      * @param fileInfo 文件信息
      * @return 结果
      */
@@ -50,7 +50,7 @@ public interface IFileInfoService extends IService<FileInfo>
 
     /**
      * 批量删除文件信息
-     * 
+     *
      * @param ids 需要删除的文件信息主键集合
      * @return 结果
      */
@@ -58,7 +58,7 @@ public interface IFileInfoService extends IService<FileInfo>
 
     /**
      * 删除文件信息信息
-     * 
+     *
      * @param id 文件信息主键
      * @return 结果
      */
@@ -89,4 +89,11 @@ public interface IFileInfoService extends IService<FileInfo>
      * @return 结果
      */
     public String importFileInfoData(List<FileInfo> fileInfoList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 查看公开图片
+     * @param fileInfo
+     * @return
+     */
+    List<FileInfo> selectFileInfoListByPublic(FileInfo fileInfo);
 }
