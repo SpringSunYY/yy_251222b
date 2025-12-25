@@ -114,13 +114,13 @@ export default {
         return;
       }
 
-      console.log('文件URL:', fileUrl);
+      // console.log('文件URL:', fileUrl);
       this.fileUrl = fileUrl;
       this.fileName = this.getFileName(fileUrl);
       this.fileType = this.getFileType(fileUrl);
 
-      console.log('文件名:', this.fileName);
-      console.log('文件类型:', this.fileType);
+      // console.log('文件名:', this.fileName);
+      // console.log('文件类型:', this.fileType);
 
       // 根据文件类型进行处理
       if (this.fileType === 'txt') {

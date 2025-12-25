@@ -118,7 +118,13 @@ public class AuditInfoServiceImpl extends ServiceImpl<AuditInfoMapper, AuditInfo
         if (StringUtils.isNull(fileInfo)) {
             throw new ServiceException("文件不存在");
         }
-        BeanUtils.copyProperties(fileInfo, auditInfo);
+        auditInfo.setFileId(fileInfo.getId());
+        auditInfo.setFileTypeId(fileInfo.getFileTypeId());
+        auditInfo.setFileTypeName(fileInfo.getFileTypeName());
+        auditInfo.setFileName(fileInfo.getFileName());
+        auditInfo.setFileType(fileInfo.getFileType());
+        auditInfo.setFileSize(fileInfo.getFileSize());
+        auditInfo.setFileUrl(fileInfo.getFileUrl());
         //如果文件已经公开无需申请
         if (IsPublicEnum.IS_PUBLIC_1.getValue().equals(fileInfo.getIsPublic())) {
             //删除所有该文件待审核的申请

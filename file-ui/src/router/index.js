@@ -66,7 +66,7 @@ export const constantRoutes = [
   },
   {
     path: '/file-preview',
-    component: () => import('@/views/file-preview'),
+    component: () => import('@/views/manage/file-preview'),
     hidden: true,
     name: 'FilePreview',
     meta: {title: '文件预览'}

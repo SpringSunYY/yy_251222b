@@ -9,7 +9,6 @@ import com.lz.common.exception.ServiceException;
 import com.lz.common.utils.DateUtils;
 import com.lz.common.utils.SecurityUtils;
 import com.lz.common.utils.StringUtils;
-import com.lz.common.utils.bean.BeanUtils;
 import com.lz.common.utils.bean.BeanValidators;
 import com.lz.common.utils.spring.SpringUtils;
 import com.lz.manage.mapper.CollectInfoMapper;
@@ -132,7 +131,13 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
         if (StringUtils.isNull(fileInfo)) {
             throw new ServiceException("文件不存在");
         }
-        BeanUtils.copyProperties(fileInfo, collectInfo);
+        collectInfo.setFileId(fileInfo.getId());
+        collectInfo.setFileTypeId(fileInfo.getFileTypeId());
+        collectInfo.setFileTypeName(fileInfo.getFileTypeName());
+        collectInfo.setFileName(fileInfo.getFileName());
+        collectInfo.setFileType(fileInfo.getFileType());
+        collectInfo.setFileSize(fileInfo.getFileSize());
+        collectInfo.setFileUrl(fileInfo.getFileUrl());
         //查询收藏夹是否存在
         CollectFolder collectFolder = collectFolderInfoService.selectCollectFolderById(collectInfo.getFolderId());
         if (StringUtils.isNull(collectFolder)) {
