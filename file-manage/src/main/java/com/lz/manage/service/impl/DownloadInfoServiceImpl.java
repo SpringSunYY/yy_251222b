@@ -13,10 +13,12 @@ import com.lz.common.utils.spring.SpringUtils;
 import com.lz.manage.mapper.DownloadInfoMapper;
 import com.lz.manage.model.domain.DownloadInfo;
 import com.lz.manage.model.domain.FileInfo;
+import com.lz.manage.model.domain.Notification;
 import com.lz.manage.model.dto.downloadInfo.DownloadInfoQuery;
 import com.lz.manage.model.vo.downloadInfo.DownloadInfoVo;
 import com.lz.manage.service.IDownloadInfoService;
 import com.lz.manage.service.IFileInfoService;
+import com.lz.manage.service.INotificationService;
 import com.lz.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +53,9 @@ public class DownloadInfoServiceImpl extends ServiceImpl<DownloadInfoMapper, Dow
 
     @Resource
     private IFileInfoService fileInfoService;
+
+    @Resource
+    private INotificationService notificationService;
 
     {
         validator = SpringUtils.getBean(Validator.class);
@@ -102,6 +107,12 @@ public class DownloadInfoServiceImpl extends ServiceImpl<DownloadInfoMapper, Dow
         fileInfoService.updateFileInfo(fileInfo);
         downloadInfo.setUserId(SecurityUtils.getUserId());
         downloadInfo.setCreateTime(DateUtils.getNowDate());
+        //发送信息
+        Notification notification = new Notification();
+        notification.setTitle("图片下载提醒");
+        notification.setContent("用户【" + SecurityUtils.getUsername() + "】下载了图片【" + fileInfo.getFileName() + "】");
+        notification.setUserId(fileInfo.getUserId());
+        notificationService.insertNotification(notification);
         return downloadInfoMapper.insertDownloadInfo(downloadInfo);
     }
 

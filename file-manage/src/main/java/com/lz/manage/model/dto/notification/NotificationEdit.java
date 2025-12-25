@@ -1,11 +1,11 @@
 package com.lz.manage.model.dto.notification;
 
-import java.io.Serializable;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lz.manage.model.domain.Notification;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import com.lz.manage.model.domain.Notification;
+
+import java.io.Serializable;
+
 /**
  * 通知Vo对象 tb_notification
  *
@@ -13,17 +13,26 @@ import com.lz.manage.model.domain.Notification;
  * @date 2025-12-24
  */
 @Data
-public class NotificationEdit implements Serializable
-{
+public class NotificationEdit implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** 通知标题 */
+    /**
+     * 编号
+     */
+    private Long id;
+    /**
+     * 通知标题
+     */
     private String title;
 
-    /** 通知内容 */
+    /**
+     * 通知内容
+     */
     private String content;
 
-    /** 是否已读 */
+    /**
+     * 是否已读
+     */
     private String readFlag;
 
     /**

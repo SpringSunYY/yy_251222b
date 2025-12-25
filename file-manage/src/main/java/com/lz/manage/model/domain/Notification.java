@@ -34,8 +34,11 @@ public class Notification implements Serializable {
     /**
      * 用户编号
      */
-    @Excel(name = "用户编号")
+    @Excel(name = "用户编号", type = Excel.Type.IMPORT)
     private Long userId;
+    @TableField(exist = false)
+    @Excel(name = "用户名称", type = Excel.Type.EXPORT)
+    private String userName;
 
     /**
      * 通知标题

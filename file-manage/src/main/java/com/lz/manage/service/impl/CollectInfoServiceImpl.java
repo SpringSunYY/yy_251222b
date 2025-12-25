@@ -15,11 +15,13 @@ import com.lz.manage.mapper.CollectInfoMapper;
 import com.lz.manage.model.domain.CollectFolder;
 import com.lz.manage.model.domain.CollectInfo;
 import com.lz.manage.model.domain.FileInfo;
+import com.lz.manage.model.domain.Notification;
 import com.lz.manage.model.dto.collectInfo.CollectInfoQuery;
 import com.lz.manage.model.vo.collectInfo.CollectInfoVo;
 import com.lz.manage.service.ICollectFolderService;
 import com.lz.manage.service.ICollectInfoService;
 import com.lz.manage.service.IFileInfoService;
+import com.lz.manage.service.INotificationService;
 import com.lz.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +54,9 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
     @Resource
     private ISysUserService sysUserService;
 
+
+    @Resource
+    private INotificationService notificationService;
 
     @Resource
     private IFileInfoService fileInfoService;
@@ -101,6 +106,7 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
      * @param collectInfo 收藏记录
      * @return 结果
      */
+    @Transactional
     @Override
     public int insertCollectInfo(CollectInfo collectInfo) {
         FileInfo fileInfo = initData(collectInfo);
@@ -114,6 +120,12 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
         fileInfoService.updateFileInfo(fileInfo);
         collectInfo.setUserId(userId);
         collectInfo.setCreateTime(DateUtils.getNowDate());
+        //发送消息
+        Notification notification = new Notification();
+        notification.setTitle("文件收藏提醒");
+        notification.setContent("用户【" + SecurityUtils.getUsername() + "】收藏了文件【" + fileInfo.getFileName() + "】");
+        notification.setUserId(fileInfo.getUserId());
+        notificationService.insertNotification(notification);
         return collectInfoMapper.insertCollectInfo(collectInfo);
     }
 

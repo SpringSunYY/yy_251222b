@@ -9,18 +9,19 @@ import com.lz.common.exception.ServiceException;
 import com.lz.common.utils.DateUtils;
 import com.lz.common.utils.SecurityUtils;
 import com.lz.common.utils.StringUtils;
-import com.lz.common.utils.bean.BeanUtils;
 import com.lz.common.utils.bean.BeanValidators;
 import com.lz.common.utils.spring.SpringUtils;
 import com.lz.manage.mapper.AuditInfoMapper;
 import com.lz.manage.model.domain.AuditInfo;
 import com.lz.manage.model.domain.FileInfo;
+import com.lz.manage.model.domain.Notification;
 import com.lz.manage.model.dto.auditInfo.AuditInfoQuery;
 import com.lz.manage.model.enums.IsAgreeEnum;
 import com.lz.manage.model.enums.IsPublicEnum;
 import com.lz.manage.model.vo.auditInfo.AuditInfoVo;
 import com.lz.manage.service.IAuditInfoService;
 import com.lz.manage.service.IFileInfoService;
+import com.lz.manage.service.INotificationService;
 import com.lz.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,10 @@ public class AuditInfoServiceImpl extends ServiceImpl<AuditInfoMapper, AuditInfo
 
     @Resource
     private IFileInfoService fileInfoService;
+
+
+    @Resource
+    private INotificationService notificationService;
 
     {
         validator = SpringUtils.getBean(Validator.class);
@@ -154,6 +159,12 @@ public class AuditInfoServiceImpl extends ServiceImpl<AuditInfoMapper, AuditInfo
         //如果传过来的是公开
         if (IsPublicEnum.IS_PUBLIC_1.getValue().equals(auditInfo.getIsAgree())) {
             fileInfo.setIsPublic(IsPublicEnum.IS_PUBLIC_1.getValue());
+            //发送消息
+            Notification notification = new Notification();
+            notification.setTitle("图片公开提醒");
+            notification.setContent("用户【" + SecurityUtils.getUsername() + "】审核您的图片，将图片【" + fileInfo.getFileName() + "】公开了");
+            notification.setUserId(fileInfo.getUserId());
+            notificationService.insertNotification(notification);
             fileInfoService.updateFileInfo(fileInfo);
         }
         //如果审核状态不等于数据库内容

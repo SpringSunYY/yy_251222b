@@ -45,16 +45,16 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['manage:notification:add']"
-        >新增</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="el-icon-plus"-->
+<!--          size="mini"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['manage:notification:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -103,7 +103,7 @@
     <el-table v-loading="loading" :data="notificationList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center" v-if="columns[0].visible" prop="id" />
-        <el-table-column label="用户编号" :show-overflow-tooltip="true" align="center" v-if="columns[1].visible" prop="userId" />
+        <el-table-column label="用户编号" :show-overflow-tooltip="true" align="center" v-if="columns[1].visible" prop="userName" />
         <el-table-column label="通知标题" :show-overflow-tooltip="true" align="center" v-if="columns[2].visible" prop="title" />
         <el-table-column label="通知内容" :show-overflow-tooltip="true" align="center" v-if="columns[3].visible" prop="content" />
         <el-table-column label="是否已读" align="center" v-if="columns[4].visible" prop="readFlag">
@@ -147,12 +147,12 @@
     <!-- 添加或修改通知对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="通知标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入通知标题" />
-        </el-form-item>
-        <el-form-item label="通知内容">
-          <editor v-model="form.content" :min-height="192"/>
-        </el-form-item>
+<!--        <el-form-item label="通知标题" prop="title">-->
+<!--          <el-input v-model="form.title" placeholder="请输入通知标题" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="通知内容">-->
+<!--          <editor v-model="form.content" :min-height="192"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="是否已读" prop="readFlag">
           <el-select v-model="form.readFlag" placeholder="请选择是否已读">
             <el-option
