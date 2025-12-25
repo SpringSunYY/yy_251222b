@@ -39,7 +39,26 @@
     <el-row :gutter="10" class="mb8">
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+    <el-divider></el-divider>
+    <el-row :gutter="5">
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <BarAutoCarouselCharts :chart-name="viewStatisticsName"
+                                 :chart-data="viewStatisticsData"/>
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <LineSimpleCharts/>
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <BarAvgCharts/>
+        </div>
+      </el-col>
+    </el-row>
+    <el-divider></el-divider>
     <!-- 文件卡片列表 -->
     <div class="file-card-container" v-loading="loading && fileInfoList.length === 0" element-loading-text="加载中...">
       <div class="file-card-grid">
@@ -179,12 +198,23 @@ import {listCollectFolder} from "@/api/manage/collectFolder";
 import {formatFileSize} from "@/utils/ruoyi";
 import {addViewInfo} from "@/api/manage/viewInfo";
 import {addInfo} from "@/api/manage/info";
+import BarChart from "@/views/dashboard/BarChart.vue";
+import RaddarChart from "@/views/dashboard/RaddarChart.vue";
+import PieChart from "@/views/dashboard/PieChart.vue";
+import BarAutoCarouselCharts from "@/components/Echarts/BarAutoCarouselCharts.vue";
+import LineSimpleCharts from "@/components/Echarts/LineSimpleCharts.vue";
+import BarAvgCharts from "@/components/Echarts/BarAvgCharts.vue";
+import {viewStatistics} from "@/api/manage/statistics";
 
 export default {
   name: "FileGallery",
+  components: {BarAvgCharts, LineSimpleCharts, BarAutoCarouselCharts, PieChart, RaddarChart, BarChart},
   dicts: ['is_public'],
   data() {
     return {
+      statisticsQuery: {},
+      viewStatisticsData: {},
+      viewStatisticsName: "每日浏览",
       // 遮罩层
       loading: false,
       loadingMore: false,
@@ -231,9 +261,24 @@ export default {
   created() {
     this.getList();
     this.getCollectFolderList();
+    this.getViewStatistics()
   },
   methods: {
     formatFileSize,
+    getStatistics() {
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.statisticsQuery.startTime = this.daterangeCreateTime[0];
+        this.statisticsQuery.endTime = this.daterangeCreateTime[1];
+      }
+      this.statisticsQuery.fileName = this.queryParams.fileName;
+      this.statisticsQuery.fileTypeName = this.queryParams.fileTypeName;
+      this.getViewStatistics()
+    },
+    getViewStatistics() {
+      viewStatistics(this.statisticsQuery).then(response => {
+        this.viewStatisticsData = response.data;
+      })
+    },
     /** 查询文件信息列表 */
     getList() {
       if (this.queryParams.pageNum === 1) {
@@ -285,6 +330,7 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
+      this.getStatistics();
       this.getList();
     },
 
@@ -475,7 +521,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.chart-wrapper {
+  background: #fff;
+  padding: 16px 16px 0;
+  margin-bottom: 32px;
+  height: 35vh;
+}
+
 .file-card-container {
+
   .file-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
