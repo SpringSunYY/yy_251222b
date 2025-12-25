@@ -105,7 +105,7 @@ export default {
           text: this.chartName,
           left: "2%",
           top: "2%",
-          textStyle: {color: "#fff", fontSize: 18}
+          textStyle: {color: "#6ffa69", fontSize: 18}
         },
         tooltip: {
           trigger: 'axis',

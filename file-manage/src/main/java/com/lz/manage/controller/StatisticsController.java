@@ -42,4 +42,13 @@ public class StatisticsController extends BaseController {
     public AjaxResult downloadStatistics(StatisticsRequest statisticsRequest) {
         return success(statisticsService.downloadStatistics(statisticsRequest));
     }
+
+    /**
+     * 收藏记录统计
+     */
+    @GetMapping("/collect")
+    @PreAuthorize("@ss.hasPermi('manage:statistics')")
+    public AjaxResult collectStatistics(StatisticsRequest statisticsRequest) {
+        return success(statisticsService.collectStatistics(statisticsRequest));
+    }
 }

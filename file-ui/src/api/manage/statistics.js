@@ -15,3 +15,11 @@ export function downloadStatistics() {
     method: 'get'
   })
 }
+
+//收藏记录统计
+export function collectStatistics() {
+  return request({
+    url: '/manage/statistics/collect',
+    method: 'get'
+  })
+}

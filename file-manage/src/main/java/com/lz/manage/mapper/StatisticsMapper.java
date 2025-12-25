@@ -22,4 +22,11 @@ public interface StatisticsMapper {
      * @return
      */
     List<StatisticsPo> downloadStatistics(StatisticsRequest statisticsRequest);
+
+    /**
+     * 收藏记录统计
+     * @param statisticsRequest
+     * @return
+     */
+    List<StatisticsPo> collectStatistics(StatisticsRequest statisticsRequest);
 }

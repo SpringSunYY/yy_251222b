@@ -25,4 +25,11 @@ public interface IStatisticsService {
      * @return
      */
     StatisticsVo downloadStatistics(StatisticsRequest statisticsRequest);
+
+    /**
+     * 收藏统计
+     * @param statisticsRequest
+     * @return
+     */
+    StatisticsVo collectStatistics(StatisticsRequest statisticsRequest);
 }

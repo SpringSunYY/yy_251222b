@@ -134,7 +134,7 @@ export default {
           text: chartName,
           left: "2%",
           top: "8%",
-          textStyle: {color: "#fff", fontSize: 18}
+          textStyle: {color: "#719dff", fontSize: 18}
         },
         tooltip: {
           trigger: "axis",

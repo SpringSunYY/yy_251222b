@@ -56,7 +56,8 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <BarAvgCharts/>
+          <BarAvgCharts :chart-name="collectStatisticsName"
+                        :chart-data="collectStatisticsData"/>
         </div>
       </el-col>
     </el-row>
@@ -206,7 +207,7 @@ import PieChart from "@/views/dashboard/PieChart.vue";
 import BarAutoCarouselCharts from "@/components/Echarts/BarAutoCarouselCharts.vue";
 import LineSimpleCharts from "@/components/Echarts/LineSimpleCharts.vue";
 import BarAvgCharts from "@/components/Echarts/BarAvgCharts.vue";
-import {downloadStatistics, viewStatistics} from "@/api/manage/statistics";
+import {collectStatistics, downloadStatistics, viewStatistics} from "@/api/manage/statistics";
 
 export default {
   name: "FileGallery",
@@ -220,6 +221,9 @@ export default {
       //下载记录统计
       downloadStatisticsData: {},
       downloadStatisticsName: "每日下载",
+      //收藏记录统计
+      collectStatisticsData: {},
+      collectStatisticsName: "每日收藏",
       // 遮罩层
       loading: false,
       loadingMore: false,
@@ -279,6 +283,7 @@ export default {
       this.statisticsQuery.fileTypeName = this.queryParams.fileTypeName;
       this.getViewStatistics()
       this.getDownloadStatistics()
+      this.getCollectStatistics()
     },
     //浏览记录
     getViewStatistics() {
@@ -290,6 +295,12 @@ export default {
     getDownloadStatistics() {
       downloadStatistics(this.statisticsQuery).then(response => {
         this.downloadStatisticsData = response.data;
+      })
+    },
+    //收藏记录
+    getCollectStatistics() {
+      collectStatistics(this.statisticsQuery).then(response => {
+        this.collectStatisticsData = response.data;
       })
     },
     /** 查询文件信息列表 */
