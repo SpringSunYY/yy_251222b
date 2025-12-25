@@ -95,11 +95,9 @@
             <div class="file-operations">
               <el-link
                 v-hasPermi="['manage:info:add']"
-                :download="getFileName(item.fileUrl)"
-                :href="getFilePath(item.fileUrl)"
                 :underline="false"
-                target="_blank"
                 style="margin-right: 10px"
+                @click.stop="downloadFile(item)"
               >
                 <i class="el-icon-download"></i> 下载
               </el-link>
@@ -180,6 +178,7 @@ import {addCollectInfo, delCollectInfoByFileId} from "@/api/manage/collectInfo";
 import {listCollectFolder} from "@/api/manage/collectFolder";
 import {formatFileSize} from "@/utils/ruoyi";
 import {addViewInfo} from "@/api/manage/viewInfo";
+import {addInfo} from "@/api/manage/info";
 
 export default {
   name: "FileGallery",
@@ -455,6 +454,21 @@ export default {
           fileId: item.id
         }
       });
+    },
+
+    // 下载文件
+    async downloadFile(item) {
+      this.$modal.msgSuccess("下载文件中");
+      //新增下载记录
+      await addInfo({fileId: item.id})
+      // 创建下载链接并触发下载
+      const link = document.createElement('a');
+      link.href = this.getFilePath(item.fileUrl);
+      link.download = this.getFileName(item.fileUrl);
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
 };

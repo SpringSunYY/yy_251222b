@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lz.manage.mapper.NotificationMapper">
-    
+
     <resultMap type="Notification" id="NotificationResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
@@ -19,14 +19,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectNotificationList" parameterType="Notification" resultMap="NotificationResult">
         <include refid="selectNotificationVo"/>
-        <where>  
-            <if test="id != null "> and id = #{id}</if>
-            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
-            <if test="readFlag != null  and readFlag != ''"> and read_flag = #{readFlag}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="title != null  and title != ''">and title like concat('%', #{title}, '%')</if>
+            <if test="readFlag != null  and readFlag != ''">and read_flag = #{readFlag}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
+                and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
+        order by create_time desc
     </select>
-    
+
     <select id="selectNotificationById" parameterType="Long" resultMap="NotificationResult">
         <include refid="selectNotificationVo"/>
         where id = #{id}
@@ -67,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteNotificationByIds" parameterType="String">
-        delete from tb_notification where id in 
+        delete from tb_notification where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

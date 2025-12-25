@@ -82,8 +82,11 @@ public class DownloadInfo implements Serializable {
     /**
      * 用户
      */
-    @Excel(name = "用户")
+    @Excel(name = "用户",type = Excel.Type.IMPORT)
     private Long userId;
+    @Excel(name = "用户",type = Excel.Type.EXPORT)
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 创建时间

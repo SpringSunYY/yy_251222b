@@ -45,7 +45,10 @@
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
                 and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}
             </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectDownloadInfoById" parameterType="Long" resultMap="DownloadInfoResult">
@@ -79,8 +82,7 @@
             <if test="userId != null">#{userId},</if>
             <if test="createTime != null">#{createTime},</if>
         </trim>
-                <if test="fileUrl != null">#{fileUrl},</if></insert>
-
+    </insert>
     <update id="updateDownloadInfo" parameterType="DownloadInfo">
         update tb_download_info
         <trim prefix="SET" suffixOverrides=",">
