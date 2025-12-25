@@ -206,6 +206,14 @@
           <el-button
             size="mini"
             type="text"
+            icon="el-icon-view"
+            @click="handleApply(scope.row)"
+            v-hasPermi="['manage:auditInfo:add']"
+          >申请公开
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['manage:fileInfo:edit']"
@@ -307,6 +315,19 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 添加或修改审核信息对话框 -->
+    <el-dialog :title="title" :visible.sync="openApply" width="500px" append-to-body>
+      <el-form ref="form" :model="formApply" :rules="rules" label-width="80px">
+        <el-form-item label="申请理由" prop="applyReason">
+          <el-input v-model="formApply.applyReason" placeholder="请输入申请理由"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitApply">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -323,12 +344,17 @@ import {
 import {getToken} from "@/utils/auth";
 import {formatFileSize} from "@/utils/ruoyi";
 import {listFileType} from "@/api/manage/fileType";
+import {addAuditInfo} from "@/api/manage/auditInfo";
 
 export default {
   name: "FileInfo",
   dicts: ['is_public'],
   data() {
     return {
+      formApply:{
+        applyReason: ''
+      },
+      openApply: false,
       fileTypeList: [],
       fileTypeLoading: false,
       fileTypeQuery: {
@@ -456,6 +482,18 @@ export default {
   },
   methods: {
     formatFileSize,
+    handleApply(row){
+      this.formApply.fileId=row.id
+      this.openApply = true
+    },
+    submitApply(){
+      addAuditInfo(this.formApply).then(response => {
+        this.$modal.msgSuccess("申请成功");
+        this.openApply = false;
+        this.reset();
+        this.getList();
+      });
+    },
     /** 查询文件类型列表 */
     getFileTypeList() {
       this.fileTypeLoading = true;

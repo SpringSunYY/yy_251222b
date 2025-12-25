@@ -12,7 +12,7 @@ import java.util.Date;
  * 审核信息Vo对象 tb_audit_info
  *
  * @author YY
- * @date 2025-12-24
+ * @date 2025-12-25
  */
 @Data
 public class AuditInfoVo implements Serializable {
@@ -27,6 +27,7 @@ public class AuditInfoVo implements Serializable {
      * 用户编号
      */
     private Long userId;
+    private String userName;
 
     /**
      * 类型编号
@@ -64,9 +65,15 @@ public class AuditInfoVo implements Serializable {
     private String fileUrl;
 
     /**
+     * 申请理由
+     */
+    private String applyReason;
+
+    /**
      * 审核人
      */
     private Long auditUserId;
+    private String auditUserName;
 
     /**
      * 审核内容

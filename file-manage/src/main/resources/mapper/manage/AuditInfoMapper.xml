@@ -14,6 +14,7 @@
         <result property="fileType" column="file_type"/>
         <result property="fileSize" column="file_size"/>
         <result property="fileUrl" column="file_url"/>
+        <result property="applyReason" column="apply_reason"/>
         <result property="auditUserId" column="audit_user_id"/>
         <result property="content" column="content"/>
         <result property="isAgree" column="is_agree"/>
@@ -32,6 +33,7 @@
                file_type,
                file_size,
                file_url,
+               apply_reason,
                audit_user_id,
                content,
                is_agree,
@@ -50,6 +52,7 @@
             </if>
             <if test="fileName != null  and fileName != ''">and file_name like concat('%', #{fileName}, '%')</if>
             <if test="fileType != null  and fileType != ''">and file_type = #{fileType}</if>
+            <if test="fileUrl != null  and fileUrl != ''">and file_url = #{fileUrl}</if>
             <if test="isAgree != null  and isAgree != ''">and is_agree = #{isAgree}</if>
             <if test="params.beginAuditTime != null and params.beginAuditTime != '' and params.endAuditTime != null and params.endAuditTime != ''">
                 and DATE_FORMAT(audit_time, '%Y-%m-%d') between #{params.beginAuditTime} and #{params.endAuditTime}
@@ -57,7 +60,10 @@
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
                 and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}
             </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectAuditInfoById" parameterType="Long" resultMap="AuditInfoResult">
@@ -76,6 +82,7 @@
             <if test="fileType != null and fileType != ''">file_type,</if>
             <if test="fileSize != null">file_size,</if>
             <if test="fileUrl != null and fileUrl != ''">file_url,</if>
+            <if test="applyReason != null and applyReason != ''">apply_reason,</if>
             <if test="auditUserId != null">audit_user_id,</if>
             <if test="content != null">content,</if>
             <if test="isAgree != null and isAgree != ''">is_agree,</if>
@@ -92,6 +99,7 @@
             <if test="fileType != null and fileType != ''">#{fileType},</if>
             <if test="fileSize != null">#{fileSize},</if>
             <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="applyReason != null and applyReason != ''">#{applyReason},</if>
             <if test="auditUserId != null">#{auditUserId},</if>
             <if test="content != null">#{content},</if>
             <if test="isAgree != null and isAgree != ''">#{isAgree},</if>
@@ -112,6 +120,7 @@
             <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
             <if test="fileSize != null">file_size = #{fileSize},</if>
             <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="applyReason != null and applyReason != ''">apply_reason = #{applyReason},</if>
             <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
             <if test="content != null">content = #{content},</if>
             <if test="isAgree != null and isAgree != ''">is_agree = #{isAgree},</if>

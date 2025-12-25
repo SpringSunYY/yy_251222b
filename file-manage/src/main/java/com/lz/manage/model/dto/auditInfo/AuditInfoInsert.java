@@ -1,32 +1,39 @@
 package com.lz.manage.model.dto.auditInfo;
 
-import java.io.Serializable;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lz.manage.model.domain.AuditInfo;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import com.lz.manage.model.domain.AuditInfo;
+
+import java.io.Serializable;
+
 /**
  * 审核信息Vo对象 tb_audit_info
  *
  * @author YY
- * @date 2025-12-24
+ * @date 2025-12-25
  */
 @Data
-public class AuditInfoInsert implements Serializable
-{
+public class AuditInfoInsert implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** 类型编号 */
-    private Long fileTypeId;
-
-    /** 文件编号 */
+    /**
+     * 文件编号
+     */
     private Long fileId;
 
-    /** 审核内容 */
+    /**
+     * 申请理由
+     */
+    private String applyReason;
+
+    /**
+     * 审核内容
+     */
     private String content;
 
-    /** 是否同意 */
+    /**
+     * 是否同意
+     */
     private String isAgree;
 
     /**

@@ -17,7 +17,7 @@ import java.util.Map;
  * 审核信息对象 tb_audit_info
  *
  * @author YY
- * @date 2025-12-24
+ * @date 2025-12-25
  */
 @TableName("tb_audit_info")
 @Data
@@ -34,8 +34,11 @@ public class AuditInfo implements Serializable {
     /**
      * 用户编号
      */
-    @Excel(name = "用户编号")
+    @Excel(name = "用户编号", type = Excel.Type.IMPORT)
     private Long userId;
+    @Excel(name = "用户",type = Excel.Type.EXPORT)
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 类型编号
@@ -80,10 +83,18 @@ public class AuditInfo implements Serializable {
     private String fileUrl;
 
     /**
+     * 申请理由
+     */
+    @Excel(name = "申请理由")
+    private String applyReason;
+
+    /**
      * 审核人
      */
-    @Excel(name = "审核人")
+    @Excel(name = "审核人",type = Excel.Type.IMPORT)
     private Long auditUserId;
+    @Excel(name = "审核人",type = Excel.Type.EXPORT)
+    private String auditUserName;
 
     /**
      * 审核内容
