@@ -129,7 +129,7 @@ export default {
           axisPointer: {
             type: 'cross'
           },
-          backgroundColor: 'transparent', // 完全透明
+          backgroundColor: 'rgba(6,37,68,0.9)',
           borderWidth: 0,
           textStyle: {
             color: '#FFF'

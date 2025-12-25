@@ -45,6 +45,22 @@ public class StatisticsServiceImpl implements IStatisticsService {
         return statisticsVo;
     }
 
+    @Override
+    public StatisticsVo downloadStatistics(StatisticsRequest statisticsRequest) {
+        initDate(statisticsRequest);
+        List<StatisticsPo> pos = statisticsMapper.downloadStatistics(statisticsRequest);
+        StatisticsVo statisticsVo = new StatisticsVo();
+        List<String> names = new ArrayList<>();
+        List<Long> values = new ArrayList<>();
+        for (StatisticsPo po : pos) {
+            names.add(po.getName());
+            values.add(po.getValue());
+        }
+        statisticsVo.setNames(names);
+        statisticsVo.setValues(values);
+        return statisticsVo;
+    }
+
     private void initDate(StatisticsRequest statisticsRequest) {
         //如果开始时间或者结束时间某一个为空
         if (StringUtils.isEmpty(statisticsRequest.getStartTime())

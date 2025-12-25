@@ -7,3 +7,11 @@ export function viewStatistics() {
     method: 'get'
   })
 }
+
+//下载记录统计
+export function downloadStatistics() {
+  return request({
+    url: '/manage/statistics/download',
+    method: 'get'
+  })
+}

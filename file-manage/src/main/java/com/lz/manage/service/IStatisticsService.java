@@ -12,5 +12,17 @@ import com.lz.manage.model.statistics.vo.StatisticsVo;
  * @Version: 1.0
  */
 public interface IStatisticsService {
+    /**
+     * 浏览记录统计
+     * @param statisticsRequest
+     * @return
+     */
     StatisticsVo viewStatistics(StatisticsRequest statisticsRequest);
+
+    /**
+     * 下载记录统计
+     * @param statisticsRequest
+     * @return
+     */
+    StatisticsVo downloadStatistics(StatisticsRequest statisticsRequest);
 }

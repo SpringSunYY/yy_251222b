@@ -27,4 +27,27 @@
         group by name
         order by name
     </select>
+    <select id="downloadStatistics" resultType="com.lz.manage.model.statistics.po.StatisticsPo">
+            select count(*) as value,DATE(create_time) as name
+        from tb_download_info
+        <where>
+            <if test="fileTypeName != null and fileTypeName != ''">
+                and file_type_name = #{fileTypeName}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and create_time >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and create_time &lt;= DATE_ADD(#{endTime},INTERVAL 1 DAY)
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+        group by name
+        order by name
+    </select>
 </mapper>

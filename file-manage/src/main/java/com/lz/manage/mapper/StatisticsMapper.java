@@ -15,4 +15,11 @@ import java.util.List;
  */
 public interface StatisticsMapper {
     public List<StatisticsPo> viewStatistics(StatisticsRequest statisticsRequest);
+
+    /**
+     * 下载记录统计
+     * @param statisticsRequest
+     * @return
+     */
+    List<StatisticsPo> downloadStatistics(StatisticsRequest statisticsRequest);
 }
