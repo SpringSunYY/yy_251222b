@@ -455,4 +455,23 @@ public class FileUtils
         }
         return fileName;
     }
+
+    /**
+     * 根据文件路径获取文件大小
+     */
+    public static Long getFileSize(String filePath) {
+        File file = new File(filePath);
+        return getFileSize(file);
+    }
+
+    /**
+     * 获取文件大小
+     */
+    public static Long getFileSize(File file) {
+        //判断文件是否存在
+        if (!file.exists()) {
+            log.error("文件不存在:{}",file.getAbsoluteFile());
+        }
+        return file.length();
+    }
 }

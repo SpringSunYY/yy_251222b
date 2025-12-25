@@ -254,3 +254,17 @@ export function getFilePath(filePath) {
   }
   return baseURL + filePath
 }
+
+//格式化文件大小
+export const formatFileSize = (bytes) => {
+  const units = ['B', 'KB', 'MB', 'GB']
+  let size = bytes
+  let unitIndex = 0
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024
+    unitIndex++
+  }
+  //保留两位小数
+  const formattedSize = Number(size).toFixed(2);
+  return `${formattedSize}${units[unitIndex]}`
+}

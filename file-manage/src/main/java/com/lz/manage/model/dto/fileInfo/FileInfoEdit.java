@@ -1,11 +1,11 @@
 package com.lz.manage.model.dto.fileInfo;
 
-import java.io.Serializable;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lz.manage.model.domain.FileInfo;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import com.lz.manage.model.domain.FileInfo;
+
+import java.io.Serializable;
+
 /**
  * 文件信息Vo对象 tb_file_info
  *
@@ -13,20 +13,37 @@ import com.lz.manage.model.domain.FileInfo;
  * @date 2025-12-24
  */
 @Data
-public class FileInfoEdit implements Serializable
-{
+public class FileInfoEdit implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** 编号 */
+    /**
+     * 编号
+     */
     private Long id;
 
-    /** 类型编号 */
+    /**
+     * 类型编号
+     */
     private Long fileTypeId;
 
-    /** 名称 */
+    /**
+     * 文件
+     */
+    private String fileUrl;
+
+    /**
+     * 描述
+     */
+    private String description;
+
+    /**
+     * 名称
+     */
     private String fileName;
 
-    /** 备注 */
+    /**
+     * 备注
+     */
     private String remark;
 
     /**

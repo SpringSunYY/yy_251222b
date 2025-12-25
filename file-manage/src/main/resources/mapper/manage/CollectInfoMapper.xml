@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lz.manage.mapper.CollectInfoMapper">
-    
+
     <resultMap type="CollectInfo" id="CollectInfoResult">
         <result property="id"    column="id"    />
         <result property="folderId"    column="folder_id"    />
@@ -14,29 +14,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="fileName"    column="file_name"    />
         <result property="fileType"    column="file_type"    />
         <result property="fileSize"    column="file_size"    />
+        <result property="fileUrl"     column="file_url"    />
         <result property="remark"    column="remark"    />
         <result property="userId"    column="user_id"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectCollectInfoVo">
-        select id, folder_id, folder_name, file_type_id, file_type_name, file_id, file_name, file_type, file_size, remark, user_id, create_time from tb_collect_info
+        select id,
+               folder_id,
+               folder_name,
+               file_type_id,
+               file_type_name,
+               file_id,
+               file_name,
+               file_type,
+               file_size,
+               file_url,
+               remark,
+               user_id,
+               create_time
+        from tb_collect_info
     </sql>
 
     <select id="selectCollectInfoList" parameterType="CollectInfo" resultMap="CollectInfoResult">
         <include refid="selectCollectInfoVo"/>
-        <where>  
-            <if test="id != null "> and id = #{id}</if>
-            <if test="folderName != null  and folderName != ''"> and folder_name like concat('%', #{folderName}, '%')</if>
-            <if test="fileTypeId != null "> and file_type_id = #{fileTypeId}</if>
-            <if test="fileTypeName != null  and fileTypeName != ''"> and file_type_name like concat('%', #{fileTypeName}, '%')</if>
-            <if test="fileId != null "> and file_id = #{fileId}</if>
-            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        <where>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="folderName != null  and folderName != ''">and folder_name like concat('%', #{folderName}, '%')
+            </if>
+            <if test="fileTypeId != null ">and file_type_id = #{fileTypeId}</if>
+            <if test="fileTypeName != null  and fileTypeName != ''">and file_type_name like concat('%', #{fileTypeName},
+                '%')
+            </if>
+            <if test="fileId != null ">and file_id = #{fileId}</if>
+            <if test="fileName != null  and fileName != ''">and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''">and file_type = #{fileType}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
+                and DATE_FORMAT(create_time, '%Y-%m-%d') between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if>
         </where>
     </select>
-    
+
     <select id="selectCollectInfoById" parameterType="Long" resultMap="CollectInfoResult">
         <include refid="selectCollectInfoVo"/>
         where id = #{id}
@@ -53,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fileName != null and fileName != ''">file_name,</if>
             <if test="fileType != null and fileType != ''">file_type,</if>
             <if test="fileSize != null">file_size,</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url,</if>
             <if test="remark != null">remark,</if>
             <if test="userId != null">user_id,</if>
             <if test="createTime != null">create_time,</if>
@@ -66,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fileName != null and fileName != ''">#{fileName},</if>
             <if test="fileType != null and fileType != ''">#{fileType},</if>
             <if test="fileSize != null">#{fileSize},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
             <if test="remark != null">#{remark},</if>
             <if test="userId != null">#{userId},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -83,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
             <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
             <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -95,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteCollectInfoByIds" parameterType="String">
-        delete from tb_collect_info where id in 
+        delete from tb_collect_info where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
