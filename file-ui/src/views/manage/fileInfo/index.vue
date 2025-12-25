@@ -143,18 +143,30 @@
                 <div v-for="(file,index) in scope.row.fileUrl.split(',')"
                      :key="index"
                      style="text-align: left;padding: 5px;">
-                  <el-link
-                    :download="getFileName(file)"
-                    :href="getFilePath(file)"
-                    :underline="false"
-                    target="_blank"
-                    style="font-size: 14px"
-                  >
+                  <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="cursor: pointer;"> {{ getFileName(file) }} </span>
-                  </el-link>
+                    <el-link
+                      :download="getFileName(file)"
+                      :href="getFilePath(file)"
+                      :underline="false"
+                      target="_blank"
+                      style="font-size: 14px"
+                    >
+                      <span style="cursor: pointer;"> 下载 </span>
+                    </el-link>
+                    <el-link
+                      :underline="false"
+                      :style="{ fontSize: '12px', color: canPreviewFile(file) ? '#67C23A' : '#909399' }"
+                      @click="previewFile(file)"
+                      :title="canPreviewFile(file) ? '在新标签页中预览文件' : '该文件类型暂不支持预览'"
+                      target="_blank"
+                    >
+                      {{ canPreviewFile(file) ? '预览' : '查看' }}
+                    </el-link>
+                  </div>
                 </div>
               </div>
-              <span style="cursor: pointer; color: #409EFF;">查看文件</span>
+              <span style="cursor: pointer; color: #409EFF;">文件</span>
             </el-tooltip>
           </div>
           <div v-else>
@@ -591,6 +603,42 @@ export default {
     // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();
+    },
+    // 获取文件名
+    getFileName(fileUrl) {
+      if (fileUrl.lastIndexOf("/") > -1) {
+        return fileUrl.slice(fileUrl.lastIndexOf("/") + 1);
+      } else {
+        return fileUrl;
+      }
+    },
+    // 获取文件路径
+    getFilePath(fileUrl) {
+      return process.env.VUE_APP_BASE_API + fileUrl;
+    },
+    // 获取文件类型
+    getFileType(fileUrl) {
+      const fileName = this.getFileName(fileUrl);
+      const lastDotIndex = fileName.lastIndexOf('.');
+      if (lastDotIndex > -1) {
+        return fileName.slice(lastDotIndex + 1).toLowerCase();
+      }
+      return '';
+    },
+    // 判断文件是否支持预览
+    canPreviewFile(fileUrl) {
+      const fileType = this.getFileType(fileUrl);
+      // 支持预览的文件类型
+      return ['txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf'].includes(fileType);
+    },
+    // 预览文件
+    previewFile(fileUrl) {
+      this.$router.push({
+        path: '/file-preview',
+        query: {
+          fileUrl: fileUrl
+        }
+      });
     }
   }
 };
